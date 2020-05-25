@@ -15,20 +15,6 @@ public class LoadLevels
     private static void LoadFirstLevel()
     {
         EditorSceneManager.OpenScene("Assets/_Scenes/PersistentObjects.unity", OpenSceneMode.Single);
-        EditorSceneManager.OpenScene("Assets/_Scenes/GameLevels/FirstLevel.unity", OpenSceneMode.Additive);
-    }
-
-    [MenuItem("Load Level/Second Level")]
-    private static void LoadSecondLevel()
-    {
-        EditorSceneManager.OpenScene("Assets/_Scenes/PersistentObjects.unity", OpenSceneMode.Single);
-        EditorSceneManager.OpenScene("Assets/_Scenes/GameLevels/SecondLevel.unity", OpenSceneMode.Additive);
-    }
-
-    [MenuItem("Load Level/Third Level")]
-    private static void LoadThirdLevel()
-    {
-        EditorSceneManager.OpenScene("Assets/_Scenes/PersistentObjects.unity", OpenSceneMode.Single);
-        EditorSceneManager.OpenScene("Assets/_Scenes/GameLevels/ThirdLevel.unity", OpenSceneMode.Additive);
+        EditorSceneManager.OpenScene("Assets/_Scenes/GameLevel.unity", OpenSceneMode.Additive);
     }
 }

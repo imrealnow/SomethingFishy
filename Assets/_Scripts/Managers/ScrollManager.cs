@@ -2,26 +2,42 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ScrollManager : MonoBehaviour
+[CreateAssetMenu(fileName = "ScrollManager", menuName = "SO/Managers/ScrollManager", order = 1)]
+public class ScrollManager : SManager
 {
     public float scrollSpeed = 1;
-    public float scrollXPos = 0;
     public float minScrollSpeed = -10f;
     public float maxScrollSpeed = -2.5f;
-    public float ScrollSpeed { get { return scrollSpeed; } set { scrollSpeed = Mathf.Clamp(value, minScrollSpeed, maxScrollSpeed); } }
-    
-    private float startScrollSpeed;
-    private bool isScrolling = true;
 
-    void Start()
+    [Space]
+    public SFloat distanceTravelled;
+
+    public float ScrollSpeed { get { return scrollSpeed; } set { scrollSpeed = Mathf.Clamp(value, minScrollSpeed, maxScrollSpeed); } }
+
+    private float baseScrollSpeed;
+    private float startScrollSpeed;
+    private bool isScrolling;
+
+    public override void OnEnabled()
     {
+        isScrolling = true;
         startScrollSpeed = scrollSpeed;
+        baseScrollSpeed = scrollSpeed;
     }
 
-    void FixedUpdate()
+    public override void OnDisabled()
     {
-        if(isScrolling)
-            scrollSpeed = Mathf.Lerp(scrollSpeed, startScrollSpeed, Time.fixedDeltaTime);
+        scrollSpeed = startScrollSpeed;
+        distanceTravelled.Value = 0;
+    }
+
+    public override void Update()
+    {
+        if (isScrolling)
+        {
+            scrollSpeed = Mathf.Lerp(scrollSpeed, baseScrollSpeed, Time.fixedDeltaTime);
+            distanceTravelled.Value += scrollSpeed * Time.fixedDeltaTime;
+        }
         else
             scrollSpeed = Mathf.Lerp(scrollSpeed, 0, Time.fixedDeltaTime);
     }
@@ -33,11 +49,11 @@ public class ScrollManager : MonoBehaviour
 
     public float GetSpeedPercentage()
     {
-        return Mathf.Abs(scrollSpeed) / Mathf.Abs(minScrollSpeed);
+        return Mathf.Abs(scrollSpeed) / Mathf.Abs( scrollSpeed > 0 ? maxScrollSpeed : minScrollSpeed);
     }
 
     public void SetScrollSpeed(float speed)
     {
-        startScrollSpeed = speed;
+        baseScrollSpeed = speed;
     }
 }

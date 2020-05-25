@@ -5,93 +5,64 @@ using UnityEngine;
 
 public class ParallaxScroller : MonoBehaviour, IComparable<ParallaxScroller>, IPoolable
 {
+    public FloatReference minX;
+    public FloatReference maxX;
+    public FloatReference elementWidth;
 
-    public static List<ParallaxScroller> allScrollingObjects = new List<ParallaxScroller>();
-    public int startingSortOrder = 3;
+    [Space]
+    public SFloat screenWidth;
 
-    private static bool objectsSorted = false;
-
-    [Range(0, 1)]
+    [Range(-1, 1)]
     public float distanceFromCamera; // 1 = infinity
     public bool repeatOnLeaveScreen = true;
     public bool startOffScreen = true;
 
-    protected SpriteRenderer spriteRenderer { get; private set; }
-
-    protected Camera mainCamera;
-    protected ScrollManager scrollManager;
+    public ScrollManager scrollManager;
+    protected float startScrollAmount;
     protected Vector3 startPosition;
 
-    protected float screenMinX;
-    protected float screenMaxX;
-    protected float screenWidth;
-
     protected float scrollAmount = 0f;
-    protected bool initialised = false;
+    protected float distanceToMinX { get { return transform.position.x - minX.Value; } }
 
-    void Start()
+    void OnEnable()
     {
-        mainCamera = Camera.main;
-        scrollManager = FindObjectOfType<ScrollManager>();
+        if (startOffScreen)
+            scrollAmount = screenWidth.Value;
+        else
+            scrollAmount = distanceToMinX;
 
-        spriteRenderer = GetComponent<SpriteRenderer>();
-    }
-
-    protected void OnEnable()
-    {
-        if (SetReferences())
-        {
-            Initialise();
-        }
-    }
-
-    protected void OnDisable()
-    {
-        initialised = false;
-        if (allScrollingObjects.Contains(this))
-            allScrollingObjects.Remove(this);
+        startScrollAmount = scrollAmount;
+        startPosition = transform.position;
     }
 
     protected virtual void FixedUpdate()
     {
-        if (!objectsSorted)
-            OrderRenderers();
-
         ScrollObject();
-    }
-
-    protected void Initialise()
-    {
-        screenMinX = mainCamera.ScreenToWorldPoint(Vector3.zero).x;
-        screenMaxX = mainCamera.ScreenToWorldPoint(new Vector3(mainCamera.pixelWidth, 0, 0)).x;
-        screenWidth = Mathf.Abs(screenMinX - screenMaxX);
-
-        if (!allScrollingObjects.Contains(this) && spriteRenderer != null)
-            allScrollingObjects.Add(this);
-
-        startPosition = transform.position;
-        scrollAmount = -(screenWidth / 2);
-        initialised = true;
     }
 
     protected void ScrollObject()
     {
-        if (scrollManager == null || mainCamera == null)
+        // if the camera isn't "moving", don't bother calculating everything else (don't do anything)
+        if (scrollManager.scrollSpeed == 0)
+            return;
+
+        // check the scroll manager's speed to determine the movement direction
+        bool goingRight = scrollManager.scrollSpeed > 0;
+
+        // add the depth scaled scroll amount to the total scroll amount
+        scrollAmount += scrollManager.scrollSpeed * (1 - distanceFromCamera) * Time.fixedDeltaTime;
+        float scaledPosition = minX.Value + scrollAmount;
+        if (startOffScreen)
+            scaledPosition += elementWidth.Value;
+        bool offLeftSide = !goingRight && (scaledPosition + elementWidth.Value) < minX.Value;
+        bool offRightSide = goingRight && (scaledPosition + elementWidth.Value) > maxX.Value;
+
+        if (offLeftSide || offRightSide)
         {
-            if (!SetReferences())
-                return;
-        }
-
-        scrollAmount += scrollManager.scrollSpeed * Time.fixedDeltaTime;
-
-        float elementWidth = spriteRenderer != null ? spriteRenderer.bounds.extents.x * 2 : 4f;
-        float scaledPosition = startPosition.x + (scrollAmount * (1 - distanceFromCamera));
-
-        if (!repeatOnLeaveScreen)
-        {
-            if ((transform.position.x + elementWidth) < screenMinX)
+            // destroy it if it's not being repeated
+            if (!repeatOnLeaveScreen)
             {
-                transform.position = startPosition;
+                //scrollAmount = startScrollAmount;
                 PoolObject objPool = gameObject.GetComponent<PoolObject>();
                 if (objPool != null)
                 {
@@ -99,44 +70,26 @@ public class ParallaxScroller : MonoBehaviour, IComparable<ParallaxScroller>, IP
                 }
                 else
                     Destroy(gameObject);
+
+                return;
+            }
+            else
+            {
+                // reset position to other side
+                scrollAmount = goingRight ? 0 - elementWidth.Value : screenWidth.Value + elementWidth.Value;
+                scaledPosition = minX.Value + scrollAmount;
             }
         }
-
-        scaledPosition = (scaledPosition % (screenWidth + elementWidth * 3));
-        if (startOffScreen)
-            scaledPosition += (screenMaxX + elementWidth);
-
         SetPosition(scaledPosition);
     }
 
+    // sets the position of the object to the calculated position
     protected virtual void SetPosition(float newX)
     {
         transform.position = new Vector3(newX, transform.position.y);
     }
 
-    protected static void OrderRenderers()
-    {
-        allScrollingObjects.Sort();
-        for (int i = 0; i < allScrollingObjects.Count; i++)
-        {
-            allScrollingObjects[i].spriteRenderer.sortingOrder = i + allScrollingObjects[i].startingSortOrder;
-        }
-        objectsSorted = true;
-    }
-
-    protected bool SetReferences()
-    {
-        if (scrollManager != null && mainCamera != null)
-            return true;
-            mainCamera = Camera.main;
-            scrollManager = FindObjectOfType<ScrollManager>();
-
-        if (scrollManager != null && mainCamera != null && !initialised)
-            Initialise();
-
-        return scrollManager != null && mainCamera != null;
-    }
-
+    // used to compare depth of object to other object for sorting purposes
     public int CompareTo(ParallaxScroller obj)
     {
         if (obj == null) return 1;
@@ -149,14 +102,16 @@ public class ParallaxScroller : MonoBehaviour, IComparable<ParallaxScroller>, IP
             return 1;
     }
 
-    public void Reuse()
-    {
-        scrollAmount = 0f;
-        startPosition = transform.position;
-    }
-
     public void ResetScrollPosition()
     {
-        scrollAmount = -(screenWidth / 2f);
+        scrollAmount = startScrollAmount;
+    }
+
+    // reset all the variables that need to be reset when the object is taken from the pool and reused
+    public void Reuse()
+    {
+        startPosition = transform.position;
+        scrollAmount = startOffScreen ? screenWidth.Value : distanceToMinX;
+        startScrollAmount = scrollAmount;
     }
 }

@@ -8,7 +8,7 @@ public class RestartLevel : MonoBehaviour
     public void RestartCurrentScene(string sceneName)
     {
         Scene scene = SceneManager.GetSceneByName(sceneName);
-        SceneManager.LoadScene(scene.name, LoadSceneMode.Additive);
         SceneManager.UnloadSceneAsync(scene);
+        SceneManager.LoadScene(scene.name, LoadSceneMode.Additive);
     }
 }

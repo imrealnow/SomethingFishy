@@ -6,8 +6,7 @@ using UnityEngine.UI;
 public class Timer : MonoBehaviour
 {
     public Text seconds, milliseconds;
-    public SharedFloat timeValue;
-
+    public SFloat timeValue;
 
     private void OnEnable()
     {

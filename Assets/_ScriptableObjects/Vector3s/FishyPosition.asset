@@ -9,7 +9,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ac0a8a3dbdc7c174c905efcf196f93df, type: 3}
+  m_Script: {fileID: 11500000, guid: f5d3507b7a07024408ce74c0a913f14c, type: 3}
   m_Name: FishyPosition
   m_EditorClassIdentifier: 
-  _variable: {x: -2.61, y: -3.02, z: 0}
+  resetValueOnLoad: 0
+  _variable: {x: 0, y: 0, z: 0}
+  description: 

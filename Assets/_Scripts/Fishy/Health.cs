@@ -6,7 +6,7 @@ using UnityEngine.Events;
 public class Health : MonoBehaviour
 {
     public int maxHealth = 6;
-    public SharedInt currentHealth;
+    public IntReference currentHealth;
     public bool isInvulnerable = false;
 
     public UnityEvent AfterInitialised;

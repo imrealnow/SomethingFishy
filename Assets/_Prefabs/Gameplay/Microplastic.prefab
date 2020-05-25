@@ -14,8 +14,8 @@ GameObject:
   - component: {fileID: 7772283102553561587}
   - component: {fileID: 7772283102553561584}
   - component: {fileID: 2379237028989791287}
-  - component: {fileID: 7265947083885063016}
   - component: {fileID: 5807030121440820396}
+  - component: {fileID: -8937245840359066498}
   m_Layer: 0
   m_Name: Microplastic
   m_TagString: Untagged
@@ -125,12 +125,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0c47c286ee6ba0f4898181c737b73f5c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  scrollManagerReference: {fileID: 0}
-  cameraReference: {fileID: 0}
-  startingSortOrder: 20
+  minX:
+    _value: 0
+    _variable: {fileID: 11400000, guid: b82bd04be26363647aceb988be30089a, type: 2}
+    useConstant: 0
+  maxX:
+    _value: 0
+    _variable: {fileID: 11400000, guid: b4324bafa099d2f4297b3075fe67bdd7, type: 2}
+    useConstant: 0
+  elementWidth:
+    _value: 0.5
+    _variable: {fileID: 0}
+    useConstant: 1
+  screenWidth: {fileID: 11400000, guid: 313dc3fff219a454aa8e0c9475c81428, type: 2}
   distanceFromCamera: 0
   repeatOnLeaveScreen: 0
-  startOffScreen: 0
+  startOffScreen: 1
+  scrollManager: {fileID: 11400000, guid: d2679cc3831f23c4ca74c0403ee0bfbf, type: 2}
   bobbingAmplitude: 0.1
   bobbingFrequency: 1
   offsetVariance: 0.5
@@ -169,7 +180,7 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
---- !u!114 &7265947083885063016
+--- !u!114 &5807030121440820396
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -178,7 +189,19 @@ MonoBehaviour:
   m_GameObject: {fileID: 7772283102553561588}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9907f9bb2e88afd4f96a8168de41a052, type: 3}
+  m_Script: {fileID: 11500000, guid: 0167257e82e782446a391b6393916d56, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &-8937245840359066498
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7772283102553561588}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 31d14069380597744b8820eeb49c718a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   eventPairs:
@@ -197,15 +220,3 @@ MonoBehaviour:
             m_StringArgument: 
             m_BoolArgument: 0
           m_CallState: 2
---- !u!114 &5807030121440820396
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7772283102553561588}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0167257e82e782446a391b6393916d56, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 

@@ -1,6 +1,6 @@
-﻿using UnityEngine;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
+using UnityEngine;
 
 public class PrefabPool
 {
@@ -40,13 +40,13 @@ public class PrefabPool
         for (int i = 0; i < poolSize; i++)
         {
             var obj = Object.Instantiate(prefabToPool);
+            obj.SetActive(false);
             obj.transform.SetParent(_parentObject.transform);
             PoolObject objectNamer = obj.GetComponent<PoolObject>();
             if (objectNamer == null)
                 objectNamer = obj.AddComponent<PoolObject>();
             objectNamer.prefabPool = this;
             objectNamer.OriginalName = prefab.name;
-            obj.SetActive(false);
             poolList.Add(obj);
         }
     }
@@ -55,7 +55,7 @@ public class PrefabPool
     {
         foreach (var obj in poolList) // look for inactive objects
         {
-            if (!obj.activeInHierarchy) 
+            if (!obj.activeInHierarchy)
             {
                 ResetPoolObject(obj);
                 obj.SetActive(true);
@@ -78,7 +78,7 @@ public class PrefabPool
             }
             poolList.Add(obj);
             PoolObject objectNamer = obj.GetComponent<PoolObject>();
-            if(objectNamer == null)
+            if (objectNamer == null)
                 objectNamer = obj.AddComponent<PoolObject>();
             objectNamer.prefabPool = this;
             objectNamer.OriginalName = prefab.name;
@@ -117,7 +117,7 @@ public class PrefabPool
 
     public void ResetPool()
     {
-        foreach(GameObject repooledObject in poolList)
+        foreach (GameObject repooledObject in poolList)
         {
             PutBackInPool(repooledObject);
         }

@@ -1,35 +1,54 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.Events;
 
 public class FishyController : MonoBehaviour
 {
+    public Vector2 yBounds;
     public Vector2 baseSpeeds;
     public Vector2 maxSpeeds;
     public float drag = 0.99f;
 
-    public Vector2 yBounds;
+    [Space]
+    public float touchDistanceThreshold = 0.5f;
 
-    private ScrollManager scrollManager;
+    [Space]
+    public SGameObject cameraReference;
+    public ScrollManager scrollManager;
+
+    [Space]
+    public UnityEvent OnDirectionChanged;
+
     private SpriteRenderer spriteRenderer;
     private Bobber bobber;
+    private Camera mainCamera;
+
+    public Vector2 Velocity { get { return new Vector2(xVel, yVel); } }
 
     private float xVel = 0f;
     private float yVel = 0f;
 
+    private Vector2 firstTouchPosition;
+
     private bool hasControl = true;
     private bool hasWon = false;
+    private bool aboveBound = false;
+    private bool belowBound = false;
 
     void Start()
     {
-        scrollManager = FindObjectOfType<ScrollManager>();
         spriteRenderer = GetComponent<SpriteRenderer>();
         bobber = GetComponent<Bobber>();
+        mainCamera = cameraReference.Value.GetComponent<Camera>();
     }
 
     void FixedUpdate()
     {
         if (hasControl)
         {
+            ApplySwimmingRotation();
             ControlFishy();
+            scrollManager.ScrollSpeed += xVel * Time.smoothDeltaTime;
         }
         else
         {
@@ -43,20 +62,21 @@ public class FishyController : MonoBehaviour
                 0
             );
 
-        if (transform.position.y > yBounds.y && yVel > 0)
+        aboveBound = transform.position.y > yBounds.y;
+        belowBound = transform.position.y < yBounds.x;
+
+        if (yVel > 0 && aboveBound)
             yVel *= 0.9f;
-        if (transform.position.y < yBounds.x && yVel < 0)
+        if (yVel < 0 && belowBound)
             yVel *= 0.9f;
 
         xVel *= drag;
         yVel *= drag;
     }
 
-    private void ControlFishy()
+    protected virtual void ControlFishy()
     {
-        float angle = Mathf.Atan2(scrollManager.scrollSpeed * Time.smoothDeltaTime * 2, yVel * Time.smoothDeltaTime) * Mathf.Rad2Deg + 90;
-        transform.rotation = Quaternion.Euler(new Vector3(0, 0, angle));
-
+#if UNITY_WEBGL
         if (Input.GetKey(KeyCode.W) && transform.position.y < yBounds.y)
         {
             float delta = baseSpeeds.y * scrollManager.GetSpeedPercentage();
@@ -75,16 +95,55 @@ public class FishyController : MonoBehaviour
         {
             xVel = Mathf.Max(xVel - baseSpeeds.x, -maxSpeeds.x);
         }
+#endif
+#if UNITY_ANDROID
+        List<Touch> touches = InputHelper.GetTouches();
 
-        scrollManager.ScrollSpeed += xVel * Time.smoothDeltaTime;
+        if (touches.Count > 0)
+        {
+            Vector3 touchWorldPosition = mainCamera.ScreenToWorldPoint(touches[0].position);
+            touchWorldPosition.z = transform.position.z;
+            float distanceToTouch = Mathf.Abs(touchWorldPosition.y - transform.position.y);
+
+            // up and down
+            float yVelDelta = touches[0].deltaPosition.y / 20f * scrollManager.GetSpeedPercentage();
+
+            //if out out bounds, don't let fishy move more out of bounds
+            if (aboveBound)
+                yVelDelta = Mathf.Min(0, yVelDelta);
+            if (belowBound)
+                yVelDelta = Mathf.Max(0, yVelDelta);
+
+            yVel = CalculateYVel(yVel, yVelDelta);
+
+            //// left and right
+            //if (touches[0].phase == TouchPhase.Began)
+            //    firstTouchPosition = touchWorldPosition;
+            //else
+            //{
+            //    float xVelScale = Mathf.Clamp(firstTouchPosition.x - touchWorldPosition.x, -touchDistanceThreshold, touchDistanceThreshold);
+            //    xVel = Mathf.Clamp(maxSpeeds.x * (xVelScale / touchDistanceThreshold), -maxSpeeds.x, maxSpeeds.x);
+            //}
+        }
+#endif
     }
 
     private float CalculateYVel(float currentYVel, float delta)
     {
-        if (Mathf.Sign(currentYVel) != Mathf.Sign(delta))
+        if ((currentYVel < 0 && delta > 0) || (currentYVel > 0 && delta < 0))
+        {
             delta *= 2.5f;
+            if (OnDirectionChanged != null)
+                OnDirectionChanged.Invoke();
+        }
 
-        return currentYVel + delta;
+        return Mathf.Clamp(currentYVel + delta, -maxSpeeds.y, maxSpeeds.y);
+    }
+
+    private void ApplySwimmingRotation()
+    {
+        float angle = Mathf.Atan2(scrollManager.scrollSpeed * Time.smoothDeltaTime * 2, yVel * Time.smoothDeltaTime) * Mathf.Rad2Deg + 90;
+        transform.rotation = Quaternion.Euler(new Vector3(0, 0, angle));
     }
 
     public void Win()
@@ -103,5 +162,9 @@ public class FishyController : MonoBehaviour
     public void SetXVelocity(float velocity)
     {
         xVel = velocity;
+    }
+    public void SetYVelocity(float velocity)
+    {
+        yVel = velocity;
     }
 }

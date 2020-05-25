@@ -6,4 +6,5 @@ using UnityEngine;
 public class Pickup : MonoBehaviour
 {
     public PickupIdentifier identifier;
+    public bool destroyOnPickup = true;
 }

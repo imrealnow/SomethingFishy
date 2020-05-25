@@ -30,10 +30,13 @@ public class PickupHandler : MonoBehaviour
                     {
                         pep.pickupEffect.Invoke();
                         PoolObject pickupPool = pickup.gameObject.GetComponent<PoolObject>();
-                        if (pickupPool != null)
-                            pickupPool.ReturnToPool();
-                        else
-                            Destroy(pickup.gameObject);
+                        if (pickup.destroyOnPickup)
+                        {
+                            if (pickupPool != null)
+                                pickupPool.ReturnToPool();
+                            else
+                                Destroy(pickup.gameObject);
+                        }
                     }
                 }
             }

@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class BackgroundScroller : MonoBehaviour
 {
-    [Range(0, 1)]
+    [Range(-1, 1)]
     public float distanceFromCamera; // 1 = infinity
     public float scrollPos;
 
@@ -12,8 +12,7 @@ public class BackgroundScroller : MonoBehaviour
 
     public Transform firstElement, secondElement;
 
-    private ScrollManager scrollManager;
-    private SpriteRenderer spriteRenderer;
+    public ScrollManager scrollManager;
     private Camera mainCamera;
 
     private float elementWidth;
@@ -27,15 +26,11 @@ public class BackgroundScroller : MonoBehaviour
 
     void Start()
     {
-        scrollManager = FindObjectOfType<ScrollManager>();
-        spriteRenderer = GetComponent<SpriteRenderer>();
         mainCamera = FindObjectOfType<Camera>();
-
         elementWidth = elementsWidth;
-
         firstStartXPos = firstElement.position.x;
-        float screenMinX = mainCamera.ScreenToWorldPoint(Vector3.zero).x;
-        float screenMaxX = mainCamera.ScreenToWorldPoint(new Vector3(mainCamera.pixelWidth, 0, 0)).x;
+        float screenMinX = mainCamera.ViewportToWorldPoint(Vector3.zero).x;
+        float screenMaxX = mainCamera.ViewportToWorldPoint(new Vector3(mainCamera.pixelWidth, 0, 0)).x;
         screenWidth = Mathf.Abs(screenMinX - screenMaxX);
     }
 

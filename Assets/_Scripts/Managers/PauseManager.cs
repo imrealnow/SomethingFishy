@@ -1,38 +1,44 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.Events;
 
-public class PauseManager : MonoBehaviour
+[CreateAssetMenu(fileName = "PauseManager", menuName = "SO/Managers/PauseManager", order = 1)]
+public class PauseManager : SManager
 {
-    public SharedGameObjectList pauseObjects;
+    public RunningSet pauseObjects;
     [Space]
     public UnityEvent OnPaused;
     public UnityEvent OnUnpaused;
 
-    private bool isPaused = false;
-    private bool isLocked = false;
+    public bool isPaused = false;
 
-    public void TogglePause(bool lockPause = false)
+    public override void OnEnabled()
     {
-        if (!lockPause && isLocked) // it's locked and you're not unlocking it
-            return;
+        isPaused = false;
+    }
 
-        isLocked = lockPause && !isLocked;
+    public override void OnDisabled()
+    {
+        isPaused = false;
+    }
 
+    public void TogglePause()
+    {
         SetIsPaused(!isPaused);
     }
 
     public void SetIsPaused(bool paused)
     {
-        if (isPaused == paused || isLocked)
+        if (isPaused == paused)
             return;
 
-        if (pauseObjects.Value.Count > 0)
+        if (pauseObjects.GetSet() != null)
         {
-            foreach (GameObject go in pauseObjects.Value)
+            if (pauseObjects.GetSet().Count > 0)
             {
-                go.SetActive(!paused);
+                foreach (GameObject go in pauseObjects.GetSet())
+                {
+                    go.SetActive(!paused);
+                }
             }
         }
 
@@ -44,10 +50,5 @@ public class PauseManager : MonoBehaviour
             OnPaused.Invoke();
         if (!isPaused && OnUnpaused != null)
             OnUnpaused.Invoke();
-    }
-
-    public void SetPauseLocking(bool locked)
-    {
-        isLocked = locked;
     }
 }

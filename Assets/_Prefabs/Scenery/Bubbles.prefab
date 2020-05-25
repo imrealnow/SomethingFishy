@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 4575706256691400378}
   - component: {fileID: 1023765409749168210}
   m_Layer: 0
-  m_Name: Bubbles (1)
+  m_Name: Bubbles
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -223,7 +223,7 @@ ParticleSystem:
       serializedVersion: 2
       minMaxState: 0
       minColor: {r: 1, g: 1, b: 1, a: 1}
-      maxColor: {r: 1, g: 1, b: 1, a: 0.5882353}
+      maxColor: {r: 1, g: 1, b: 1, a: 1}
       maxGradient:
         serializedVersion: 2
         key0: {r: 1, g: 1, b: 1, a: 1}
@@ -4767,5 +4767,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b3a2298f7ccfdf84a93b97c3700abfd1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  minX:
+    _value: 0
+    _variable: {fileID: 0}
+    useConstant: 1
+  maxX:
+    _value: 0
+    _variable: {fileID: 0}
+    useConstant: 1
+  elementWidth:
+    _value: 0
+    _variable: {fileID: 0}
+    useConstant: 1
+  screenWidth: {fileID: 0}
   distanceFromCamera: 0
   repeatOnLeaveScreen: 1
+  startOffScreen: 1
+  scrollManager: {fileID: 0}

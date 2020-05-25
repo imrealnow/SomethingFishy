@@ -5,7 +5,7 @@ using UnityEngine;
 public class HeartsManager : MonoBehaviour
 {
     public GameObject heartPrefab;
-    public SharedInt heartsAmount;
+    public SInt heartsAmount;
     public float spacing;
 
     private List<Heart> hearts = new List<Heart>();
@@ -18,11 +18,6 @@ public class HeartsManager : MonoBehaviour
     void OnDisable()
     {
         heartsAmount.variableChanged -= UpdateHearts;
-    }
-
-    private void DelayedUpdate()
-    {
-        Invoke("UpdateHearts", 0.1f);
     }
 
     public void UpdateHearts()

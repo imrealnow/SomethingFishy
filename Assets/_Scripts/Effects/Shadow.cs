@@ -4,18 +4,20 @@ using UnityEngine;
 
 public class Shadow : MonoBehaviour
 {
-    public SharedVector3 objectPosition;
+    public Vector3Reference objectPosition;
     public AnimationCurve sizeScaler, transparencyScaler;
     public float maxDistance;
+    public float xOffset;
     public float yLevel;
     public float zLevel;
-    public float xOffset;
+    public bool repositionX;
 
     private SpriteRenderer spriteRenderer;
     private Color startColor;
     private Vector3 startScale;
 
     private float yRange;
+
     void Start()
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
@@ -26,9 +28,9 @@ public class Shadow : MonoBehaviour
 
     void Update()
     {
-        float xPos = objectPosition.Value.x + xOffset;
-        float distanceScale = (yLevel - objectPosition.Value.y + yRange) / (maxDistance + yRange);
-        transform.position = new Vector3(xPos, yLevel, zLevel);
+        float xPos = repositionX ? objectPosition.Value.x : transform.position.x;
+        float distanceScale = (yLevel - objectPosition.Value.y  + yRange) / (maxDistance + yRange);
+        transform.position = new Vector3(xPos + xOffset, yLevel, zLevel);
         transform.localScale = startScale * sizeScaler.Evaluate(distanceScale);
         spriteRenderer.color = new Color(startColor.r, startColor.g, startColor.b, startColor.a * transparencyScaler.Evaluate(distanceScale));
     }

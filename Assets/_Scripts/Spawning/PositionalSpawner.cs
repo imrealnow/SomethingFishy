@@ -6,33 +6,35 @@ public class PositionalSpawner : MonoBehaviour
 {
     public float frequency;
     public GameObject prefab;
-    public SharedVector3 spawnPosition;
+    public Vector3Reference spawnPosition;
 
     private PoolManager poolManager;
     private PrefabPool prefabPool;
-    private Cooldown spawnCooldown;
+    private Cooldown spawnCooldown = new Cooldown();
 
     private bool isSpawning = true;
 
     void Start()
     {
-        spawnCooldown = new Cooldown(frequency);
+        spawnCooldown.ChangeDuration(frequency);
         poolManager = FindObjectOfType<PoolManager>();
         prefabPool = poolManager.AddPool(prefab);
     }
 
     void Update()
     {
-        if (!spawnCooldown.IsOnCooldown && isSpawning)
+        if (isSpawning)
         {
-            GameObject spawnedObj = prefabPool.GetUnusedObject();
-            if(spawnPosition != null)
-                spawnedObj.transform.position = spawnPosition.Value;
-            else
-                spawnedObj.transform.position = transform.position;
-            prefabPool.ResetPoolObject(spawnedObj);
-            spawnedObj.SetActive(true);
-            spawnCooldown.IsOnCooldown = true;
+            if (spawnCooldown.TryUseCooldown())
+            {
+                GameObject spawnedObj = prefabPool.GetUnusedObject();
+                if (spawnPosition != null)
+                    spawnedObj.transform.position = spawnPosition.Value;
+                else
+                    spawnedObj.transform.position = transform.position;
+                prefabPool.ResetPoolObject(spawnedObj);
+                spawnedObj.SetActive(true);
+            }
         }
     }
 

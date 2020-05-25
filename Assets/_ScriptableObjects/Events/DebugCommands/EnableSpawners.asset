@@ -9,6 +9,6 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b459f014f9e591e47b73b0838d7136d4, type: 3}
+  m_Script: {fileID: 11500000, guid: 3b12619a2efdd094b9675a783d735e81, type: 3}
   m_Name: EnableSpawners
   m_EditorClassIdentifier: 

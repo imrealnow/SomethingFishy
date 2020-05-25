@@ -12,12 +12,6 @@ EditorBuildSettings:
     path: Assets/_Scenes/PersistentObjects.unity
     guid: a7267cf2cfe4d8942a6f216ce235dd0a
   - enabled: 1
-    path: Assets/_Scenes/GameLevels/FirstLevel.unity
+    path: Assets/_Scenes/GameLevel.unity
     guid: 735e041c90f759845bd9c47cd1584628
-  - enabled: 1
-    path: Assets/_Scenes/GameLevels/SecondLevel.unity
-    guid: 948a75f93a4364b47ab2c2498e08e485
-  - enabled: 1
-    path: Assets/_Scenes/GameLevels/ThirdLevel.unity
-    guid: e00ca7137f5ecf848804be2c87bdc434
   m_configObjects: {}

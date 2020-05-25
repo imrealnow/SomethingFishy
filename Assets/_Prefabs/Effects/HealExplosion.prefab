@@ -168,7 +168,7 @@ ParticleSystem:
     startSpeed:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 10
+      scalar: 13
       minScalar: 5
       maxCurve:
         serializedVersion: 2
@@ -975,7 +975,7 @@ ParticleSystem:
       countCurve:
         serializedVersion: 2
         minMaxState: 0
-        scalar: 7
+        scalar: 14
         minScalar: 30
         maxCurve:
           serializedVersion: 2
@@ -4866,12 +4866,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b3a2298f7ccfdf84a93b97c3700abfd1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  scrollManagerReference: {fileID: 0}
-  cameraReference: {fileID: 0}
-  startingSortOrder: 15
+  minX:
+    _value: 0
+    _variable: {fileID: 11400000, guid: b82bd04be26363647aceb988be30089a, type: 2}
+    useConstant: 0
+  maxX:
+    _value: 0
+    _variable: {fileID: 11400000, guid: b4324bafa099d2f4297b3075fe67bdd7, type: 2}
+    useConstant: 0
+  elementWidth:
+    _value: 1.5
+    _variable: {fileID: 0}
+    useConstant: 1
   distanceFromCamera: 0
   repeatOnLeaveScreen: 0
   startOffScreen: 0
+  scrollManager: {fileID: 11400000, guid: d2679cc3831f23c4ca74c0403ee0bfbf, type: 2}
 --- !u!114 &7420165030899142815
 MonoBehaviour:
   m_ObjectHideFlags: 0

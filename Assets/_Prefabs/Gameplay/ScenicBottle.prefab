@@ -11,8 +11,8 @@ GameObject:
   - component: {fileID: 4461429169520470716}
   - component: {fileID: 4461429169520470715}
   - component: {fileID: 4461429169520470717}
-  - component: {fileID: 3666853806729959462}
   - component: {fileID: 477429237571489762}
+  - component: {fileID: -3640391118398645242}
   m_Layer: 0
   m_Name: ScenicBottle
   m_TagString: Untagged
@@ -72,9 +72,9 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 20
+  m_SortingOrder: 3
   m_Sprite: {fileID: 21300000, guid: f043a42a778ca0e44958c4bbd4610bc8, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 0.53333336}
+  m_Color: {r: 0.3820755, g: 0.76785165, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -96,17 +96,28 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0c47c286ee6ba0f4898181c737b73f5c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  scrollManagerReference: {fileID: 0}
-  cameraReference: {fileID: 0}
-  startingSortOrder: 5
+  minX:
+    _value: 0
+    _variable: {fileID: 11400000, guid: b82bd04be26363647aceb988be30089a, type: 2}
+    useConstant: 0
+  maxX:
+    _value: 0
+    _variable: {fileID: 11400000, guid: b4324bafa099d2f4297b3075fe67bdd7, type: 2}
+    useConstant: 0
+  elementWidth:
+    _value: 0.5
+    _variable: {fileID: 0}
+    useConstant: 1
+  screenWidth: {fileID: 11400000, guid: 313dc3fff219a454aa8e0c9475c81428, type: 2}
   distanceFromCamera: 0.5
   repeatOnLeaveScreen: 0
   startOffScreen: 1
+  scrollManager: {fileID: 11400000, guid: d2679cc3831f23c4ca74c0403ee0bfbf, type: 2}
   bobbingAmplitude: 0.05
-  bobbingFrequency: 3
+  bobbingFrequency: 0.3
   offsetVariance: 0.5
   frequencyVariance: 0.1
---- !u!114 &3666853806729959462
+--- !u!114 &477429237571489762
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -115,7 +126,19 @@ MonoBehaviour:
   m_GameObject: {fileID: 4461429169520470714}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9907f9bb2e88afd4f96a8168de41a052, type: 3}
+  m_Script: {fileID: 11500000, guid: 0167257e82e782446a391b6393916d56, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &-3640391118398645242
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4461429169520470714}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 31d14069380597744b8820eeb49c718a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   eventPairs:
@@ -134,15 +157,3 @@ MonoBehaviour:
             m_StringArgument: 
             m_BoolArgument: 0
           m_CallState: 2
---- !u!114 &477429237571489762
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4461429169520470714}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0167257e82e782446a391b6393916d56, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 

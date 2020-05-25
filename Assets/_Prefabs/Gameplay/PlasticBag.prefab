@@ -14,8 +14,9 @@ GameObject:
   - component: {fileID: 5312789026252653500}
   - component: {fileID: 5312789026252653501}
   - component: {fileID: 243999553714370170}
-  - component: {fileID: 5094617182186959141}
   - component: {fileID: 8282352901886764769}
+  - component: {fileID: 1778367643421599519}
+  - component: {fileID: -3349435231949959424}
   m_Layer: 0
   m_Name: PlasticBag
   m_TagString: Untagged
@@ -30,13 +31,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5312789026252653497}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: -0.19603163, w: 0.9805976}
   m_LocalPosition: {x: -0.23733628, y: -3.1234362, z: -4.3307323}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: -22.61}
 --- !u!212 &5312789026252653496
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -77,7 +78,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 20
   m_Sprite: {fileID: 21300000, guid: 3b2e2a72ed2be924db4fca0f88c3742c, type: 3}
-  m_Color: {r: 0.85346395, g: 0.9716981, b: 0.62793696, a: 0.77254903}
+  m_Color: {r: 0.76788807, g: 0.8584906, b: 0.7005607, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -99,14 +100,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0c47c286ee6ba0f4898181c737b73f5c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  scrollManagerReference: {fileID: 0}
-  cameraReference: {fileID: 0}
-  startingSortOrder: 20
+  minX:
+    _value: 0
+    _variable: {fileID: 11400000, guid: b82bd04be26363647aceb988be30089a, type: 2}
+    useConstant: 0
+  maxX:
+    _value: 0
+    _variable: {fileID: 11400000, guid: b4324bafa099d2f4297b3075fe67bdd7, type: 2}
+    useConstant: 0
+  elementWidth:
+    _value: 0.5
+    _variable: {fileID: 0}
+    useConstant: 1
+  screenWidth: {fileID: 11400000, guid: 313dc3fff219a454aa8e0c9475c81428, type: 2}
   distanceFromCamera: 0
   repeatOnLeaveScreen: 0
-  startOffScreen: 0
-  bobbingAmplitude: 0.3
-  bobbingFrequency: 1
+  startOffScreen: 1
+  scrollManager: {fileID: 11400000, guid: d2679cc3831f23c4ca74c0403ee0bfbf, type: 2}
+  bobbingAmplitude: 0.53
+  bobbingFrequency: 1.31
   offsetVariance: 0.5
   frequencyVariance: 0.1
 --- !u!58 &5312789026252653500
@@ -159,7 +171,7 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
---- !u!114 &5094617182186959141
+--- !u!114 &8282352901886764769
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -168,7 +180,39 @@ MonoBehaviour:
   m_GameObject: {fileID: 5312789026252653497}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9907f9bb2e88afd4f96a8168de41a052, type: 3}
+  m_Script: {fileID: 11500000, guid: 0167257e82e782446a391b6393916d56, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1778367643421599519
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5312789026252653497}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a77d1c7b83430d0458bafd426b0d390c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  minZRotation:
+    _value: -20
+    _variable: {fileID: 0}
+    useConstant: 1
+  maxZRotation:
+    _value: 20
+    _variable: {fileID: 0}
+    useConstant: 1
+--- !u!114 &-3349435231949959424
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5312789026252653497}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 31d14069380597744b8820eeb49c718a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   eventPairs:
@@ -187,15 +231,3 @@ MonoBehaviour:
             m_StringArgument: 
             m_BoolArgument: 0
           m_CallState: 2
---- !u!114 &8282352901886764769
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5312789026252653497}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0167257e82e782446a391b6393916d56, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 

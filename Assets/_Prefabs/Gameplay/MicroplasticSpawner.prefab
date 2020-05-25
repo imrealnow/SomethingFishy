@@ -10,7 +10,6 @@ GameObject:
   m_Component:
   - component: {fileID: 499438838894080306}
   - component: {fileID: 499438838894080307}
-  - component: {fileID: 499438838894080308}
   m_Layer: 0
   m_Name: MicroplasticSpawner
   m_TagString: Untagged
@@ -47,20 +46,8 @@ MonoBehaviour:
   bounds:
     m_Center: {x: 0, y: 0, z: 0}
     m_Extent: {x: 0.29, y: 3.84, z: 0}
+  spawnAvoider: {fileID: 0}
   objectToEmit: {fileID: 7772283102553561588, guid: a819c2c6abc780e4bbfba3659a46c25a,
     type: 3}
   frequency: 1
---- !u!114 &499438838894080308
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 499438838894080305}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5e88904f58aad4d4485a75c6b7b3a37d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  offset: 1
-  xValue: {fileID: 11400000, guid: b4324bafa099d2f4297b3075fe67bdd7, type: 2}
+  scrollManager: {fileID: 0}
